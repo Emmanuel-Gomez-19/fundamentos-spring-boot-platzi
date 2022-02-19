@@ -2,6 +2,8 @@ package com.fundamentos.springboot.fundamentos.entity;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "post")
 public class Post {
@@ -12,6 +14,7 @@ public class Post {
 	@Column(name = "description", length = 255)
 	private String description;
 	@ManyToOne
+	@JsonBackReference
 	private User user;
 	
 	public Post() {

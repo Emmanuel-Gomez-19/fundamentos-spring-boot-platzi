@@ -2,6 +2,8 @@ package com.fundamentos.springboot.fundamentos.entity;
 
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,33 +15,40 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id_user", nullable = false, unique = true)
-	private Long Id;
+	private Long id;
 	
 	@Column(length = 50)
 	private String name;
-	@Column(length = 50)
+	@Column(length = 50, unique = true)
 	private String email;
 	
 	private LocalDate birthDate;
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JsonManagedReference
+	@JsonIgnore
 	private List<Post> posts = new ArrayList<>(); 
 	
-	public User() {
-	}
 	
 	public User(String name, String email, LocalDate birthDate) {
 		this.name = name;
 		this.email = email;
 		this.birthDate = birthDate;
 	}
+	public User() {
+		
+	}
+	
+	public User(Long id) {
+		this.id = id;
+	}
+
+
 
 	public Long getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(Long id) {
-		Id = id;
+		this.id = id;
 	}
 
 	public String getName() {
@@ -77,7 +86,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User {" +
-				"id=" + Id +
+				"id=" + id +
 				", name='" + name + '\'' +
 				", email='" + email + '\'' +
 				", posts=" + posts + 
